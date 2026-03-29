@@ -14,6 +14,7 @@ def client(tmp_path, monkeypatch) -> Iterator[TestClient]:
     monkeypatch.setenv("DATABASE_URL", f"sqlite+pysqlite:///{tmp_path / 'test.db'}")
     monkeypatch.setenv("JWT_SECRET_KEY", "test-secret")
     monkeypatch.setenv("PUI_INBOUND_PASSWORD", "TestPassword123!")
+    monkeypatch.setenv("SCHEDULER_ENABLED", "false")
 
     get_settings.cache_clear()
     get_engine.cache_clear()

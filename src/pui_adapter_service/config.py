@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     pui_outbound_base_url: str = "https://plataformadebusqueda.gob.mx/api/2_3_0"
     pui_outbound_institucion_id: str = "RFC123456ABC"
     pui_outbound_clave: str = "ChangeMePassword1!"
+    pui_outbound_enabled: bool = False
+    pui_request_timeout_seconds: int = 10
+    scheduler_enabled: bool = True
     scheduler_phase3_minutes: int = 60
 
     model_config = SettingsConfigDict(
