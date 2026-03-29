@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pui-adapter-service"
+version = "0.1.0"
+description = "Servicio intermedio para integracion con la Plataforma Unica de Identidad"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.116,<0.117",
+  "uvicorn>=0.35,<0.36",
+  "sqlalchemy>=2.0,<2.1",
+  "pydantic-settings>=2.10,<2.11",
+  "pyjwt>=2.10,<2.11",
+  "httpx>=0.28,<0.29",
+  "apscheduler>=3.11,<3.12",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.4,<8.5",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pui_adapter_service"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
