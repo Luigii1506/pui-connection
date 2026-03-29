@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta, timezone
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from pui_adapter_service.config import Settings, get_settings
+from pui_adapter_service.middleware import InMemoryRateLimiter
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
@@ -44,3 +45,11 @@ def get_current_claims(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token invalido o expirado",
         ) from exc
+
+
+def check_login_rate_limit(request: Request) -> None:
+    request.app.state.rate_limiter.check_login(request)
+
+
+def check_api_rate_limit(request: Request) -> None:
+    request.app.state.rate_limiter.check_api(request)

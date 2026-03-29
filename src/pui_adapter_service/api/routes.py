@@ -12,7 +12,13 @@ from pui_adapter_service.api.schemas import (
 from pui_adapter_service.config import Settings, get_settings
 from pui_adapter_service.db.models import Report
 from pui_adapter_service.db.session import get_db
-from pui_adapter_service.security import authenticate_login_request, create_access_token, get_current_claims
+from pui_adapter_service.security import (
+    authenticate_login_request,
+    check_api_rate_limit,
+    check_login_rate_limit,
+    create_access_token,
+    get_current_claims,
+)
 from pui_adapter_service.services.core_adapter import CoreSearchService
 from pui_adapter_service.services.phases import PhaseOrchestrator
 from pui_adapter_service.services.pui_client import PUIClient
@@ -39,7 +45,11 @@ def health(settings: Settings = Depends(get_settings)) -> HealthResponse:
 
 
 @router.post("/login", response_model=LoginResponse)
-def login(payload: LoginRequest, settings: Settings = Depends(get_settings)) -> LoginResponse:
+def login(
+    payload: LoginRequest,
+    _: None = Depends(check_login_rate_limit),
+    settings: Settings = Depends(get_settings),
+) -> LoginResponse:
     if not authenticate_login_request(payload.usuario, payload.clave, settings):
         from fastapi import HTTPException
 
@@ -53,10 +63,11 @@ def login(payload: LoginRequest, settings: Settings = Depends(get_settings)) -> 
 def activate_report_endpoint(
     payload: ActivateReportRequest,
     db: Session = Depends(get_db),
+    _: None = Depends(check_api_rate_limit),
     claims: dict = Depends(get_current_claims),
     orchestrator: PhaseOrchestrator = Depends(get_phase_orchestrator),
 ) -> MessageResponse:
-    _ = claims
+    _ = (claims, _)
     is_duplicate = activate_report(
         db,
         event_type="activar-reporte",
@@ -74,9 +85,10 @@ def activate_report_endpoint(
 def activate_test_report_endpoint(
     payload: ActivateReportRequest,
     db: Session = Depends(get_db),
+    _: None = Depends(check_api_rate_limit),
     claims: dict = Depends(get_current_claims),
 ) -> MessageResponse:
-    _ = claims
+    _ = (claims, _)
     activate_report(
         db,
         event_type="activar-reporte-prueba",
@@ -90,8 +102,9 @@ def activate_test_report_endpoint(
 def deactivate_report_endpoint(
     payload: DeactivateReportRequest,
     db: Session = Depends(get_db),
+    _: None = Depends(check_api_rate_limit),
     claims: dict = Depends(get_current_claims),
 ) -> MessageResponse:
-    _ = claims
+    _ = (claims, _)
     deactivate_report(db, payload=payload.model_dump(mode="json", exclude_none=True))
     return MessageResponse(message="La solicitud de desactivacion del reporte se recibio correctamente.")

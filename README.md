@@ -116,3 +116,4 @@ Tambien ya incluye:
 - separacion de ambientes `local`, `sandbox` y `production`
 - validaciones de configuracion para onboarding real
 - artefactos base de despliegue para sandbox
+- headers de seguridad, errores consistentes y rate limiting basico

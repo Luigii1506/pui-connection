@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     pui_request_timeout_seconds: int = 10
     scheduler_enabled: bool = True
     scheduler_phase3_minutes: int = 60
+    rate_limit_window_seconds: int = 60
+    login_rate_limit_requests: int = 5
+    api_rate_limit_requests: int = 30
 
     model_config = SettingsConfigDict(
         env_file=".env",

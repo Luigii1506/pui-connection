@@ -20,6 +20,7 @@
 - logs estructurados
 - sin stacktraces expuestos
 - sin headers `Server` o `X-Powered-By`
+- headers `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy` y `Content-Security-Policy`
 
 ## Evidencia para aprobacion
 

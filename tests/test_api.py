@@ -21,6 +21,8 @@ def test_health(client):
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
+    assert response.headers["x-content-type-options"] == "nosniff"
+    assert response.headers["x-frame-options"] == "DENY"
 
 
 def test_login_returns_jwt(client):
@@ -252,3 +254,23 @@ def test_simulated_core_generates_phase_3_delivery(client):
         assert deliveries[0].delivery_status == "skipped"
     finally:
         session.close()
+
+
+def test_missing_token_uses_consistent_error_shape(client):
+    response = client.post(
+        "/activar-reporte",
+        json={
+            "id": "A1B2C3D4E5F6-550e8400-e29b-41d4-a716-446655440127",
+            "curp": "TEST010101HDFABC01",
+            "lugar_nacimiento": "CDMX",
+        },
+    )
+    assert response.status_code == 401
+    assert response.json() == {"error": "Token no proporcionado"}
+
+
+def test_validation_error_uses_errors_list(client):
+    response = client.post("/login", json={"usuario": "PUI"})
+    assert response.status_code == 422
+    assert "errors" in response.json()
+    assert isinstance(response.json()["errors"], list)
