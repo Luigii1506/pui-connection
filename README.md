@@ -45,6 +45,15 @@ Los documentos en `docs/pui/` funcionan como traduccion operativa del manual al 
 
 Ver `.env.example`.
 
+## Modo simulado del core PHP
+
+Mientras no exista el mapeo real del core, el servicio puede operar con `CORE_BACKEND=simulated`.
+
+- dataset por defecto: `src/pui_adapter_service/fixtures/core_simulation.json`
+- override opcional: `CORE_SIMULATION_FILE=/ruta/al/json`
+
+Esto permite ejercitar fases 1, 2 y 3 sin depender todavia del sistema PHP real.
+
 ## Ejecucion local
 
 ```bash

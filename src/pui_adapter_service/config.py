@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     app_name: str = "PUI Adapter Service"
     app_env: str = "local"
     database_url: str = "sqlite+pysqlite:///./pui_adapter.db"
+    core_backend: str = "simulated"
+    core_simulation_file: str | None = None
     jwt_secret_key: str = "change-me-in-production"
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 60

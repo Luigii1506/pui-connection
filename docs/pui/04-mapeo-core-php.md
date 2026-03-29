@@ -42,6 +42,13 @@ Definir en cuanto se conozca el core:
 - campos que permiten detectar nuevos o modificados para fase 3
 - restricciones de acceso al core y mecanismo de lectura recomendado
 
+## Estado actual del proyecto
+
+Mientras no exista el mapeo real del core PHP, el servicio opera con un backend simulado configurable por archivo JSON.
+
+- variable: `CORE_BACKEND=simulated`
+- archivo por defecto: `src/pui_adapter_service/fixtures/core_simulation.json`
+
 ## Regla de integracion
 
 - Preferir lectura desde vistas o consultas dedicadas

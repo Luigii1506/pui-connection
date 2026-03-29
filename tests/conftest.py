@@ -15,6 +15,7 @@ def client(tmp_path, monkeypatch) -> Iterator[TestClient]:
     monkeypatch.setenv("JWT_SECRET_KEY", "test-secret")
     monkeypatch.setenv("PUI_INBOUND_PASSWORD", "TestPassword123!")
     monkeypatch.setenv("SCHEDULER_ENABLED", "false")
+    monkeypatch.setenv("CORE_BACKEND", "simulated")
 
     get_settings.cache_clear()
     get_engine.cache_clear()

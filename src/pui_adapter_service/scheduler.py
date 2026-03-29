@@ -16,7 +16,7 @@ class Phase3SchedulerService:
         self._orchestrator = PhaseOrchestrator(
             settings=settings,
             pui_client=PUIClient(settings),
-            core_search=CoreSearchService(),
+            core_search=CoreSearchService(settings),
         )
 
     def run_cycle(self) -> None:

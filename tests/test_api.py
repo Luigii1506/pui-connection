@@ -198,3 +198,57 @@ def test_outbound_deliveries_are_recorded_when_outbound_is_skipped(client):
         assert deliveries[0].delivery_status == "skipped"
     finally:
         session.close()
+
+
+def test_simulated_core_generates_phase_1_and_phase_2_deliveries(client):
+    activation_payload = {
+        "id": "A1B2C3D4E5F6-550e8400-e29b-41d4-a716-446655440125",
+        "curp": "SIMU010101HDFABC01",
+        "lugar_nacimiento": "CDMX",
+        "fecha_desaparicion": "2024-12-15"
+    }
+
+    headers = _auth_headers(client)
+    response = client.post("/activar-reporte", json=activation_payload, headers=headers)
+    assert response.status_code == 200
+
+    session = get_session_factory()()
+    try:
+        deliveries = session.scalars(
+            select(OutboundDelivery).where(OutboundDelivery.report_id == activation_payload["id"])
+        ).all()
+        endpoints = [(delivery.endpoint, delivery.phase_busqueda, delivery.delivery_status) for delivery in deliveries]
+        assert ("notificar-coincidencia", "1", "skipped") in endpoints
+        assert ("notificar-coincidencia", "2", "skipped") in endpoints
+        assert ("busqueda-finalizada", None, "skipped") in endpoints
+    finally:
+        session.close()
+
+
+def test_simulated_core_generates_phase_3_delivery(client):
+    activation_payload = {
+        "id": "A1B2C3D4E5F6-550e8400-e29b-41d4-a716-446655440126",
+        "curp": "SIMU010101HDFABC01",
+        "lugar_nacimiento": "CDMX"
+    }
+
+    headers = _auth_headers(client)
+    response = client.post("/activar-reporte", json=activation_payload, headers=headers)
+    assert response.status_code == 200
+
+    service = Phase3SchedulerService(get_settings())
+    service.run_cycle()
+
+    session = get_session_factory()()
+    try:
+        deliveries = session.scalars(
+            select(OutboundDelivery).where(
+                OutboundDelivery.report_id == activation_payload["id"],
+                OutboundDelivery.phase_busqueda == "3",
+            )
+        ).all()
+        assert len(deliveries) == 1
+        assert deliveries[0].endpoint == "notificar-coincidencia"
+        assert deliveries[0].delivery_status == "skipped"
+    finally:
+        session.close()

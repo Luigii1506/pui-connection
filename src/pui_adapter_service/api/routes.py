@@ -25,7 +25,7 @@ def get_phase_orchestrator(settings: Settings = Depends(get_settings)) -> PhaseO
     return PhaseOrchestrator(
         settings=settings,
         pui_client=PUIClient(settings),
-        core_search=CoreSearchService(),
+        core_search=CoreSearchService(settings),
     )
 
 

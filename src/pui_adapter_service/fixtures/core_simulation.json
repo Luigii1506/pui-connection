@@ -1,0 +1,58 @@
+{
+  "basic": [
+    {
+      "curp": "SIMU010101HDFABC01",
+      "nombre_completo": {
+        "nombre": "JUAN",
+        "primer_apellido": "SIMULADO",
+        "segundo_apellido": "UNO"
+      },
+      "fecha_nacimiento": "1990-01-01",
+      "lugar_nacimiento": "CDMX",
+      "sexo_asignado": "H",
+      "telefono": "5511111111",
+      "correo": "juan.simulado@example.com",
+      "direccion": "CALLE UNO 10, CENTRO",
+      "calle": "CALLE UNO",
+      "numero": "10",
+      "colonia": "CENTRO",
+      "codigo_postal": "06000",
+      "municipio_o_alcaldia": "CUAUHTEMOC",
+      "entidad_federativa": "CDMX"
+    }
+  ],
+  "historical": [
+    {
+      "curp": "SIMU010101HDFABC01",
+      "tipo_evento": "Alta de cliente",
+      "fecha_evento": "2025-01-10",
+      "descripcion_lugar_evento": "Sucursal Centro",
+      "direccion_evento": {
+        "direccion": "AVENIDA CENTRAL 100, CENTRO",
+        "calle": "AVENIDA CENTRAL",
+        "numero": "100",
+        "colonia": "CENTRO",
+        "codigo_postal": "06000",
+        "municipio_o_alcaldia": "CUAUHTEMOC",
+        "entidad_federativa": "CDMX"
+      }
+    }
+  ],
+  "continuous": [
+    {
+      "curp": "SIMU010101HDFABC01",
+      "tipo_evento": "Actualizacion de datos",
+      "fecha_evento": "2026-02-15",
+      "descripcion_lugar_evento": "Portal de clientes",
+      "direccion_evento": {
+        "direccion": "EVENTO DIGITAL",
+        "calle": "NO APLICA",
+        "numero": "S/N",
+        "colonia": "NO APLICA",
+        "codigo_postal": "00000",
+        "municipio_o_alcaldia": "NO APLICA",
+        "entidad_federativa": "CDMX"
+      }
+    }
+  ]
+}
