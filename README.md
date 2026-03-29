@@ -26,6 +26,10 @@ La especificacion base para este repo es:
 
 Los documentos en `docs/pui/` funcionan como traduccion operativa del manual al MVP del proyecto.
 
+Punto de entrada principal de la documentacion:
+
+- `docs/README.md`
+
 ## Stack
 
 - Python 3.12+
@@ -74,6 +78,7 @@ Referencia: `docs/pui/10-despliegue-ambientes.md`
 Documento para la empresa:
 
 - `docs/pui/13-requerimientos-empresa-para-sandbox.md`
+- `docs/pui/15-estado-actual-y-pendientes.md`
 
 ## Ejecucion local
 

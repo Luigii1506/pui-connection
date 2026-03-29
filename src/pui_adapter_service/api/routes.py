@@ -63,11 +63,11 @@ def login(
 def activate_report_endpoint(
     payload: ActivateReportRequest,
     db: Session = Depends(get_db),
-    _: None = Depends(check_api_rate_limit),
+    _rate_limit: None = Depends(check_api_rate_limit),
     claims: dict = Depends(get_current_claims),
     orchestrator: PhaseOrchestrator = Depends(get_phase_orchestrator),
 ) -> MessageResponse:
-    _ = (claims, _)
+    _ = (claims, _rate_limit)
     is_duplicate = activate_report(
         db,
         event_type="activar-reporte",
@@ -85,10 +85,10 @@ def activate_report_endpoint(
 def activate_test_report_endpoint(
     payload: ActivateReportRequest,
     db: Session = Depends(get_db),
-    _: None = Depends(check_api_rate_limit),
+    _rate_limit: None = Depends(check_api_rate_limit),
     claims: dict = Depends(get_current_claims),
 ) -> MessageResponse:
-    _ = (claims, _)
+    _ = (claims, _rate_limit)
     activate_report(
         db,
         event_type="activar-reporte-prueba",
@@ -102,9 +102,9 @@ def activate_test_report_endpoint(
 def deactivate_report_endpoint(
     payload: DeactivateReportRequest,
     db: Session = Depends(get_db),
-    _: None = Depends(check_api_rate_limit),
+    _rate_limit: None = Depends(check_api_rate_limit),
     claims: dict = Depends(get_current_claims),
 ) -> MessageResponse:
-    _ = (claims, _)
+    _ = (claims, _rate_limit)
     deactivate_report(db, payload=payload.model_dump(mode="json", exclude_none=True))
     return MessageResponse(message="La solicitud de desactivacion del reporte se recibio correctamente.")

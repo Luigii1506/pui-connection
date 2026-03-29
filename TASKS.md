@@ -1,5 +1,10 @@
 # TASKS
 
+Estado resumido:
+
+- terminado: base del servicio, endpoints inbound, fases 1-3, core simulado, sandbox local, PUI mock, seguridad base
+- pendiente con informacion real: alta institucional, credenciales reales, infraestructura publica, core PHP real
+
 ## Fase 0. Aterrizaje de especificacion
 
 - Alinear `docs/pui/` al manual oficial y la presentacion
