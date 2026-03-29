@@ -1,0 +1,20 @@
+{
+  "id": "__REPORT_ID__",
+  "curp": "SIMU010101HDFABC01",
+  "nombre": "JUAN",
+  "primer_apellido": "SIMULADO",
+  "segundo_apellido": "UNO",
+  "fecha_nacimiento": "1990-01-01",
+  "fecha_desaparicion": "2024-12-15",
+  "lugar_nacimiento": "CDMX",
+  "sexo_asignado": "H",
+  "telefono": "5511111111",
+  "correo": "juan.simulado@example.com",
+  "direccion": "CALLE UNO 10, CENTRO",
+  "calle": "CALLE UNO",
+  "numero": "10",
+  "colonia": "CENTRO",
+  "codigo_postal": "06000",
+  "municipio_o_alcaldia": "CUAUHTEMOC",
+  "entidad_federativa": "CDMX"
+}

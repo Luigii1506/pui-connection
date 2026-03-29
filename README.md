@@ -48,6 +48,7 @@ Ver `.env.example`.
 Plantillas recomendadas:
 
 - `.env.local.example`
+- `.env.local.mock.example`
 - `.env.sandbox.example`
 - `.env.production.example`
 
@@ -92,6 +93,7 @@ Artefactos disponibles:
 - `deploy/nginx/sandbox.conf`
 - `docs/pui/11-playbook-sandbox.md`
 - `docs/pui/12-prueba-webhook.md`
+- `docs/pui/14-pui-mock-local.md`
 - `scripts/sandbox_smoke_test.sh`
 
 Flujo base:
@@ -112,6 +114,12 @@ Ensayo del webhook:
 ```bash
 export PUI_INBOUND_PASSWORD='tu_password_de_sandbox'
 ./scripts/sandbox_smoke_test.sh
+```
+
+Flujo E2E local con PUI mock:
+
+```bash
+./scripts/local_e2e_with_mock_pui.sh
 ```
 
 ## Pruebas
