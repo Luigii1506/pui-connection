@@ -23,6 +23,7 @@ def test_health(client):
     assert response.json()["status"] == "ok"
     assert response.headers["x-content-type-options"] == "nosniff"
     assert response.headers["x-frame-options"] == "DENY"
+    assert "x-request-id" in response.headers
 
 
 def test_login_returns_jwt(client):
@@ -266,7 +267,9 @@ def test_missing_token_uses_consistent_error_shape(client):
         },
     )
     assert response.status_code == 401
-    assert response.json() == {"error": "Token no proporcionado"}
+    assert response.json()["error"] == "Token no proporcionado"
+    assert "request_id" in response.json()
+    assert response.headers["x-request-id"] == response.json()["request_id"]
 
 
 def test_validation_error_uses_errors_list(client):
@@ -274,3 +277,4 @@ def test_validation_error_uses_errors_list(client):
     assert response.status_code == 422
     assert "errors" in response.json()
     assert isinstance(response.json()["errors"], list)
+    assert "request_id" in response.json()

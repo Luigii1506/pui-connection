@@ -6,7 +6,7 @@ from pui_adapter_service.api.routes import router
 from pui_adapter_service.config import get_settings
 from pui_adapter_service.db.session import init_db
 from pui_adapter_service.errors import install_error_handlers
-from pui_adapter_service.middleware import InMemoryRateLimiter, SecurityHeadersMiddleware
+from pui_adapter_service.middleware import InMemoryRateLimiter, RequestContextMiddleware, SecurityHeadersMiddleware
 from pui_adapter_service.scheduler import create_phase3_scheduler
 
 
@@ -31,6 +31,7 @@ def create_app() -> FastAPI:
     app.state.rate_limiter = InMemoryRateLimiter(settings)
     install_error_handlers(app)
     app.add_middleware(SecurityHeadersMiddleware)
+    app.add_middleware(RequestContextMiddleware)
     app.include_router(router)
     return app
 

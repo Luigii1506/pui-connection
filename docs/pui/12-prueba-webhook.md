@@ -44,9 +44,11 @@ export PUI_INBOUND_PASSWORD='tu_password_de_sandbox'
 - `/health` responde `200`
 - `/login` responde `200` con `token`
 - `/activar-reporte-prueba` responde `200`
+- todas las respuestas incluyen `X-Request-ID`
 
 ## Observaciones
 
 - el script genera un `REPORT_ID` distinto en cada ejecucion
 - si el proxy publico esta bien configurado, el flujo debe funcionar igual que en local
 - este ensayo no sustituye la prueba oficial de PUI, pero reduce errores antes del alta
+- conserva el `X-Request-ID` de cualquier intento fallido para rastrearlo en logs

@@ -133,3 +133,4 @@ Tambien ya incluye:
 - validaciones de configuracion para onboarding real
 - artefactos base de despliegue para sandbox
 - headers de seguridad, errores consistentes y rate limiting basico
+- `X-Request-ID` y logging estructurado por request

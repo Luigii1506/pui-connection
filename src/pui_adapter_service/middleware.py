@@ -1,11 +1,42 @@
+import json
+import logging
 from collections import deque
 from collections.abc import Callable
 from time import time
+from uuid import uuid4
 
 from fastapi import HTTPException, Request, status
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from pui_adapter_service.config import Settings
+
+logger = logging.getLogger("pui_adapter_service.http")
+
+
+class RequestContextMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next: Callable):
+        request_id = request.headers.get("x-request-id") or str(uuid4())
+        request.state.request_id = request_id
+        started_at = time()
+        response = await call_next(request)
+        duration_ms = round((time() - started_at) * 1000, 2)
+        client_ip = InMemoryRateLimiter._client_key(request)
+        response.headers["X-Request-ID"] = request_id
+        logger.info(
+            json.dumps(
+                {
+                    "event": "http_request",
+                    "request_id": request_id,
+                    "method": request.method,
+                    "path": request.url.path,
+                    "status_code": response.status_code,
+                    "duration_ms": duration_ms,
+                    "client_ip": client_ip,
+                },
+                ensure_ascii=True,
+            )
+        )
+        return response
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
