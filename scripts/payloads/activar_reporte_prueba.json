@@ -1,0 +1,20 @@
+{
+  "id": "__REPORT_ID__",
+  "curp": "TEST010101HDFABC01",
+  "nombre": "JUAN",
+  "primer_apellido": "PEREZ",
+  "segundo_apellido": "LOPEZ",
+  "fecha_nacimiento": "1990-01-01",
+  "fecha_desaparicion": "2024-12-15",
+  "lugar_nacimiento": "CDMX",
+  "sexo_asignado": "H",
+  "telefono": "5512345678",
+  "correo": "juan.perez@example.com",
+  "direccion": "CALLE FICTICIA 123, CENTRO",
+  "calle": "CALLE FICTICIA",
+  "numero": "123",
+  "colonia": "CENTRO",
+  "codigo_postal": "06000",
+  "municipio_o_alcaldia": "CUAUHTEMOC",
+  "entidad_federativa": "CDMX"
+}

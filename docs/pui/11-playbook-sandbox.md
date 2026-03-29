@@ -33,6 +33,13 @@ docker compose --env-file .env.sandbox up --build
 curl http://localhost:8080/health
 ```
 
+5. Ejecutar ensayo del webhook:
+
+```bash
+export PUI_INBOUND_PASSWORD='tu_password_de_sandbox'
+./scripts/sandbox_smoke_test.sh
+```
+
 ## Antes de registrar el webhook
 
 - `POST /login` responde 200
@@ -40,6 +47,7 @@ curl http://localhost:8080/health
 - TLS y dominio publico listos en el reverse proxy
 - bitacoras habilitadas
 - ambiente no usa secretos por defecto
+- ensayo local del webhook completado con `scripts/sandbox_smoke_test.sh`
 
 ## Reverse proxy
 

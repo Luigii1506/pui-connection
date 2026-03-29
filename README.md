@@ -87,6 +87,8 @@ Artefactos disponibles:
 - `docker-compose.yml`
 - `deploy/nginx/sandbox.conf`
 - `docs/pui/11-playbook-sandbox.md`
+- `docs/pui/12-prueba-webhook.md`
+- `scripts/sandbox_smoke_test.sh`
 
 Flujo base:
 
@@ -99,6 +101,13 @@ Acceso local de prueba:
 
 ```bash
 curl http://localhost:8080/health
+```
+
+Ensayo del webhook:
+
+```bash
+export PUI_INBOUND_PASSWORD='tu_password_de_sandbox'
+./scripts/sandbox_smoke_test.sh
 ```
 
 ## Pruebas
