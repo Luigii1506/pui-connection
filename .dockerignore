@@ -1,0 +1,15 @@
+.git
+.pytest_cache
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+.env.sandbox
+.env.production
+pui_adapter.db
+htmlcov
+dist
+build

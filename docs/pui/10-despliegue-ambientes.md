@@ -42,6 +42,7 @@ Configuracion base:
 - `APP_ENV=sandbox`
 - `PUBLIC_BASE_URL` real de la empresa
 - credenciales reales registradas para sandbox
+- despliegue reproducible con `Dockerfile` y `docker-compose.yml`
 
 Requiere:
 
@@ -79,3 +80,8 @@ Requiere adicionalmente:
 5. Ejecutar `activar-reporte-prueba`.
 6. Ajustar credenciales y seguridad.
 7. Pasar a `production`.
+
+## Referencias operativas
+
+- `docs/pui/09-checklist-sandbox-seguridad.md`
+- `docs/pui/11-playbook-sandbox.md`

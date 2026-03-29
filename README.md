@@ -79,6 +79,21 @@ pip install -e .[dev]
 uvicorn pui_adapter_service.main:app --reload
 ```
 
+## Sandbox con Docker
+
+Artefactos disponibles:
+
+- `Dockerfile`
+- `docker-compose.yml`
+- `docs/pui/11-playbook-sandbox.md`
+
+Flujo base:
+
+```bash
+cp .env.sandbox.example .env.sandbox
+docker compose --env-file .env.sandbox up --build
+```
+
 ## Pruebas
 
 ```bash
@@ -95,4 +110,9 @@ La base inicial del servicio ya incluye:
 - persistencia minima para reportes, eventos inbound y auditoria
 - deduplicacion basica por huella del evento
 
-Lo siguiente es implementar el cliente outbound hacia PUI y la orquestacion completa de fases 1, 2 y 3.
+Tambien ya incluye:
+
+- simulacion del core PHP por archivo JSON
+- separacion de ambientes `local`, `sandbox` y `production`
+- validaciones de configuracion para onboarding real
+- artefactos base de despliegue para sandbox
