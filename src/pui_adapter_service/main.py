@@ -24,6 +24,7 @@ async def lifespan(app: FastAPI):
 
 def create_app() -> FastAPI:
     settings = get_settings()
+    settings.validate_runtime()
     app = FastAPI(title=settings.app_name, lifespan=lifespan)
     app.include_router(router)
     return app

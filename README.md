@@ -45,6 +45,12 @@ Los documentos en `docs/pui/` funcionan como traduccion operativa del manual al 
 
 Ver `.env.example`.
 
+Plantillas recomendadas:
+
+- `.env.local.example`
+- `.env.sandbox.example`
+- `.env.production.example`
+
 ## Modo simulado del core PHP
 
 Mientras no exista el mapeo real del core, el servicio puede operar con `CORE_BACKEND=simulated`.
@@ -53,6 +59,16 @@ Mientras no exista el mapeo real del core, el servicio puede operar con `CORE_BA
 - override opcional: `CORE_SIMULATION_FILE=/ruta/al/json`
 
 Esto permite ejercitar fases 1, 2 y 3 sin depender todavia del sistema PHP real.
+
+## Ambientes
+
+La transicion correcta es `local -> sandbox -> production`.
+
+- `local`: desarrollo con cuentas y datos no oficiales
+- `sandbox`: pruebas oficiales con identidad e infraestructura de la empresa
+- `production`: operacion real con PUI
+
+Referencia: `docs/pui/10-despliegue-ambientes.md`
 
 ## Ejecucion local
 
