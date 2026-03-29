@@ -30,7 +30,7 @@ docker compose --env-file .env.sandbox up --build
 4. Verificar salud:
 
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8080/health
 ```
 
 ## Antes de registrar el webhook
@@ -43,13 +43,34 @@ curl http://localhost:8000/health
 
 ## Reverse proxy
 
-El contenedor expone el servicio en `8000`, pero PUI debe consumir una URL publica HTTPS de la empresa.
+El `compose` ya incluye un Nginx delante de la app.
+
+- `proxy`: expone `8080` localmente
+- `app`: escucha en `8000` solo dentro de la red interna del compose
+
+Esto permite:
+
+- reenviar `X-Forwarded-For`
+- reenviar `X-Forwarded-Proto`
+- aproximar el flujo real detras de un proxy
+
+En la empresa, PUI no debe consumir el puerto interno del contenedor. Debe consumir una URL publica HTTPS publicada por el reverse proxy o balanceador.
 
 Se recomienda poner enfrente:
 
 - Nginx
 - Traefik
 - balanceador administrado de nube
+
+Archivo incluido:
+
+- `deploy/nginx/sandbox.conf`
+
+Para TLS real en sandbox/produccion:
+
+- terminar HTTPS en Nginx o en el balanceador corporativo
+- apuntar `PUBLIC_BASE_URL` al dominio HTTPS real
+- conservar `X-Forwarded-Proto` y `X-Forwarded-For`
 
 ## No hacer en sandbox
 

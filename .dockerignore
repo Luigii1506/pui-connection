@@ -13,3 +13,5 @@ pui_adapter.db
 htmlcov
 dist
 build
+deploy/**/*.pem
+deploy/**/*.key

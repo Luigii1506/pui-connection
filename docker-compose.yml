@@ -1,4 +1,20 @@
 services:
+  proxy:
+    image: nginx:1.27-alpine
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./deploy/nginx/sandbox.conf:/etc/nginx/conf.d/default.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/health >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
   app:
     build:
       context: .
@@ -7,8 +23,6 @@ services:
       - .env.sandbox.example
     environment:
       DATABASE_URL: postgresql+psycopg://pui_user:change_me@db:5432/pui_adapter
-    ports:
-      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy

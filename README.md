@@ -85,6 +85,7 @@ Artefactos disponibles:
 
 - `Dockerfile`
 - `docker-compose.yml`
+- `deploy/nginx/sandbox.conf`
 - `docs/pui/11-playbook-sandbox.md`
 
 Flujo base:
@@ -92,6 +93,12 @@ Flujo base:
 ```bash
 cp .env.sandbox.example .env.sandbox
 docker compose --env-file .env.sandbox up --build
+```
+
+Acceso local de prueba:
+
+```bash
+curl http://localhost:8080/health
 ```
 
 ## Pruebas
