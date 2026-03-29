@@ -50,6 +50,35 @@ Campos minimos:
 
 ## Tablas siguientes del roadmap
 
-- `outbound_deliveries`
-- `phase_runs`
+## Tabla `phase_runs`
+
+Bitacora estructurada de ejecucion de cada fase.
+
+Campos minimos:
+
+- `report_id`
+- `phase_name`
+- `status`
+- `requested_from_date`
+- `effective_from_date`
+- `started_at`
+- `completed_at`
+- `details`
+
+## Tabla `outbound_deliveries`
+
+Registro de cada intento o salto de entrega hacia PUI.
+
+Campos minimos:
+
+- `report_id`
+- `endpoint`
+- `phase_busqueda`
+- `delivery_status`
+- `request_payload`
+- `response_payload`
+- `created_at`
+
+## Siguiente del roadmap
+
 - `phase_3_jobs`

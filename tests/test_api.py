@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from pui_adapter_service.db.models import AuditLog, InboundEvent, Report
+from pui_adapter_service.db.models import AuditLog, InboundEvent, OutboundDelivery, PhaseRun, Report
 from pui_adapter_service.db.session import get_session_factory
 from pui_adapter_service.scheduler import Phase3SchedulerService
 from pui_adapter_service.config import get_settings
@@ -94,6 +94,34 @@ def test_activate_report_runs_initial_phases(client):
         session.close()
 
 
+def test_phase_2_window_is_capped_to_12_years(client):
+    activation_payload = {
+        "id": "A1B2C3D4E5F6-550e8400-e29b-41d4-a716-446655440777",
+        "curp": "TEST010101HDFABC01",
+        "lugar_nacimiento": "CDMX",
+        "fecha_desaparicion": "2000-01-15",
+    }
+
+    headers = _auth_headers(client)
+    response = client.post("/activar-reporte", json=activation_payload, headers=headers)
+    assert response.status_code == 200
+
+    session = get_session_factory()()
+    try:
+        phase_2_run = session.scalar(
+            select(PhaseRun).where(
+                PhaseRun.report_id == activation_payload["id"],
+                PhaseRun.phase_name == "2",
+            )
+        )
+        assert phase_2_run is not None
+        assert phase_2_run.requested_from_date.isoformat() == "2000-01-15"
+        assert phase_2_run.effective_from_date.isoformat() != "2000-01-15"
+        assert phase_2_run.status == "completed"
+    finally:
+        session.close()
+
+
 def test_desactivar_reporte_marks_report_inactive(client):
     activation_payload = {
         "id": "A1B2C3D4E5F6-550e8400-e29b-41d4-a716-446655440001",
@@ -145,5 +173,28 @@ def test_phase_3_cycle_updates_active_reports(client):
         audit_events = session.scalars(select(AuditLog.event_type).where(AuditLog.report_id == activation_payload["id"])).all()
         assert "phase-3.started" in audit_events
         assert "phase-3.completed" in audit_events
+    finally:
+        session.close()
+
+
+def test_outbound_deliveries_are_recorded_when_outbound_is_skipped(client):
+    activation_payload = {
+        "id": "A1B2C3D4E5F6-550e8400-e29b-41d4-a716-446655440124",
+        "curp": "TEST010101HDFABC01",
+        "lugar_nacimiento": "CDMX",
+    }
+
+    headers = _auth_headers(client)
+    response = client.post("/activar-reporte", json=activation_payload, headers=headers)
+    assert response.status_code == 200
+
+    session = get_session_factory()()
+    try:
+        deliveries = session.scalars(
+            select(OutboundDelivery).where(OutboundDelivery.report_id == activation_payload["id"])
+        ).all()
+        assert len(deliveries) == 1
+        assert deliveries[0].endpoint == "busqueda-finalizada"
+        assert deliveries[0].delivery_status == "skipped"
     finally:
         session.close()

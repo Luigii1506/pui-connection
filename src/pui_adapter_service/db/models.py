@@ -1,6 +1,6 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
-from sqlalchemy import JSON, Boolean, DateTime, Integer, String, UniqueConstraint
+from sqlalchemy import JSON, Boolean, Date, DateTime, Integer, String, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -50,4 +50,31 @@ class AuditLog(Base):
     event_type: Mapped[str] = mapped_column(String(64), index=True)
     report_id: Mapped[str | None] = mapped_column(String(75), nullable=True, index=True)
     payload: Mapped[dict] = mapped_column(JSON, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class PhaseRun(Base):
+    __tablename__ = "phase_runs"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    report_id: Mapped[str] = mapped_column(String(75), index=True)
+    phase_name: Mapped[str] = mapped_column(String(16), index=True)
+    status: Mapped[str] = mapped_column(String(16), index=True)
+    requested_from_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    effective_from_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    details: Mapped[dict] = mapped_column(JSON, default=dict)
+
+
+class OutboundDelivery(Base):
+    __tablename__ = "outbound_deliveries"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    report_id: Mapped[str] = mapped_column(String(75), index=True)
+    endpoint: Mapped[str] = mapped_column(String(64), index=True)
+    phase_busqueda: Mapped[str | None] = mapped_column(String(1), nullable=True, index=True)
+    delivery_status: Mapped[str] = mapped_column(String(16), index=True)
+    request_payload: Mapped[dict] = mapped_column(JSON, default=dict)
+    response_payload: Mapped[dict] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
